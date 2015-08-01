@@ -1,0 +1,14 @@
+#olduser {
+	width:33%;
+	height:33%;
+}
+
+#newuser {
+	width:33%;
+	height:33%;
+	display:none;
+}
+
+.form-control{
+	margin:1px;
+}

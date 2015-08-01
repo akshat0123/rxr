@@ -3,14 +3,39 @@
   <head>
     <title>Login</title>
 		<% include header.ejs %>
+		<link rel='stylesheet' href='/stylesheets/login.css'/>
   </head>
   <body>
 		<% include navbar.ejs %>
 
-		<h1>LOGIN</h1>
+		<div class='container'>
+			<div id='olduser' class='row center-block'>
+				<form id='login'>
+					<h2>LOGIN</h2>
+					<input type='email' id='email' class='form-control' placeholder='EMAIL' required autofocus/>
+					<input type='password' id='password' class='form-control' placeholder='PASSWORD'/>
+					<button class='btn btn-lg btn-block' type='submit'>LOGIN</button>
+					<a id='loginnewuser'><h6>JOIN</h6></a>
+				</form>
+			</div>
+
+			<div id='newuser' class='row center-block'>
+				<form action='/addUser'>
+					<h2>JOIN</h2>
+					<input type='text' id='firstname' class='form-control' placeholder='FIRST NAME' required autofocus/>
+					<input type='text' id='lastname' class='form-control' placeholder='LAST NAME' required autofocus/>
+					<input type='email' id='email' class='form-control' placeholder='EMAIL' required autofocus/>
+					<input type='password' id='password' class='form-control' placeholder='PASSWORD'/>
+					<input type='password' id='retypepassword' class='form-control' placeholder='RETYPE PASSWORD'/>
+					<button class='btn btn-lg btn-block' type='submit'>JOIN</button>
+					<a id='loginolduser'><h6>JOIN</h6></a>
+				</form>
+			</div>
+		</div>
 
   </body>
 	<script src='/javascripts/jquery/jquery.min.js'></script>
 	<script src='/javascripts/jquery/jquery.min.map'></script>
 	<script src='/javascripts/bootstrap/bootstrap.min.js'></script>
+	<script src='/javascripts/login.js'></script>
 </html>
