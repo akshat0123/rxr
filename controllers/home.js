@@ -23,7 +23,7 @@ router.get('/cart', function(req, res, next) {
 });
 
 router.get('/login', function(req, res, next) {
-	res.render('login');
+	res.render('login', { message: null } );
 });
 
 module.exports = router;

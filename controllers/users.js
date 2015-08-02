@@ -10,9 +10,10 @@ router.post('/addUser', function(req, res) {
 	var password = req.body.newuserpassword;
 	var retypepassword = req.body.retypepassword;
 	if (password !== retypepassword) {
-		res.render('login');
+		res.render('login', { message: 'Passwords don\'t match' } );
 	} else {
 		db.addUser(firstname, lastname, email, password, function(result) {
+			console.log(result);
 			res.render('home');
 		});
 	}
@@ -22,7 +23,9 @@ router.post('/login', function(req, res) {
 	var email = req.body.olduseremail;
 	var password = req.body.olduserpassword;
 	db.login(email, password, function(result) {
-		res.render('home');
+		console.log(result);
+		if (result === true) { res.render('home'); }
+		else { res.render('login', { message: 'No such account'}); }
 	});
 });
 

@@ -14,7 +14,7 @@ function addUser(firstname, lastname, email, password, cb) {
 				if (err) { cb(err); }
 				else {
 					pg.end();
-					cb(result); 
+					cb(true); 
 				}
 			});
 		}
@@ -32,7 +32,8 @@ function login(email, password, cb) {
 				if (err) { cb(err) }
 				else {
 					pg.end();
-					cb(result);
+					if (result.rows[0]['exists']) { cb(true); }
+					else { cb(false); }
 				}
 			});
 		}
