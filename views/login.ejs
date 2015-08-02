@@ -10,23 +10,23 @@
 
 		<div class='container'>
 			<div id='olduser' class='row center-block'>
-				<form id='login'>
+				<form action='/users/login' method='POST'>
 					<h2>LOGIN</h2>
-					<input type='email' id='email' class='form-control' placeholder='EMAIL' required autofocus/>
-					<input type='password' id='password' class='form-control' placeholder='PASSWORD'/>
+					<input type='email' name='olduseremail' class='form-control' placeholder='EMAIL' required autofocus/>
+					<input type='password' name='olduserpassword' class='form-control' placeholder='PASSWORD'/>
 					<button class='btn btn-lg btn-block' type='submit'>LOGIN</button>
 					<a id='loginnewuser'><h6>JOIN</h6></a>
 				</form>
 			</div>
 
 			<div id='newuser' class='row center-block'>
-				<form action='/addUser'>
+				<form action='/users/addUser' method='POST'>
 					<h2>JOIN</h2>
-					<input type='text' id='firstname' class='form-control' placeholder='FIRST NAME' required autofocus/>
-					<input type='text' id='lastname' class='form-control' placeholder='LAST NAME' required autofocus/>
-					<input type='email' id='email' class='form-control' placeholder='EMAIL' required autofocus/>
-					<input type='password' id='password' class='form-control' placeholder='PASSWORD'/>
-					<input type='password' id='retypepassword' class='form-control' placeholder='RETYPE PASSWORD'/>
+					<input type='text' name='firstname' class='form-control' placeholder='FIRST NAME' required autofocus/>
+					<input type='text' name='lastname' class='form-control' placeholder='LAST NAME' required/>
+					<input type='email' name='newuseremail' class='form-control' placeholder='EMAIL' required/>
+					<input type='password' name='newuserpassword' class='form-control' placeholder='PASSWORD'/>
+					<input type='password' name='retypepassword' class='form-control' placeholder='RETYPE PASSWORD'/>
 					<button class='btn btn-lg btn-block' type='submit'>JOIN</button>
 					<a id='loginolduser'><h6>JOIN</h6></a>
 				</form>

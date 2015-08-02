@@ -3,25 +3,27 @@ var router = express.Router();
 
 var db = require('../models/user');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
-
-router.post('/addUser', function(req, res, next) {
+router.post('/addUser', function(req, res) {
 	var firstname = req.body.firstname;
 	var lastname = req.body.lastname;
-	var email = req.body.email;
-	var password = req.body.password;
+	var email = req.body.newuseremail;
+	var password = req.body.newuserpassword;
 	var retypepassword = req.body.retypepassword;
-	db.addUser(firstname, lastname, email, password, function(result) {
-		
-	});
+	if (password !== retypepassword) {
+		res.render('login');
+	} else {
+		db.addUser(firstname, lastname, email, password, function(result) {
+			res.render('home');
+		});
+	}
 });
 
-router.post('/login', function(req, res, next) {
-	var email = req.body.email;
-	var password = req.body.password;
-}
+router.post('/login', function(req, res) {
+	var email = req.body.olduseremail;
+	var password = req.body.olduserpassword;
+	db.login(email, password, function(result) {
+		res.render('home');
+	});
+});
 
 module.exports = router;
