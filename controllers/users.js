@@ -13,7 +13,7 @@ router.post('/addUser', function(req, res) {
 		res.render('login', { message: 'Passwords don\'t match' } );
 	} else {
 		db.addUser(firstname, lastname, email, password, function(result) {
-			console.log(result);
+			console.log('USERNAME (addUser): ' + req.session.username);
 			res.render('home');
 		});
 	}
@@ -23,8 +23,11 @@ router.post('/login', function(req, res) {
 	var email = req.body.olduseremail;
 	var password = req.body.olduserpassword;
 	db.login(email, password, function(result) {
-		console.log(result);
-		if (result === true) { res.render('home'); }
+		if (result === true) { 
+			req.session.username = email;
+			console.log('USERNAME (login): ' + req.session.username);
+			res.render('home'); 
+		}
 		else { res.render('login', { message: 'No such account'}); }
 	});
 });
