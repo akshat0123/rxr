@@ -17,12 +17,12 @@
 			<li><a href='/blog'>BLOG</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right" style="margin-right:0">
-			<% if (session.username === null) { %>
-				<li><a href='/login'>LOGIN</a></li>
-			<% } else { %>
-				<li><a href='/cart'>CART</a></li>
-				<li><a href='/logout'>LOGOUT</a></li>
-			<% } %>
+				<% if (!isAuthenticated) {%>
+					<li><a href='/login'>LOGIN</a></li>
+				<% } else { %>
+					<li><a href='/cart'>CART</a></li>
+					<li><a href='/users/logout'>LOGOUT</a></li>
+				<% } %>
 		</ul>
 	</div>
 </nav>

@@ -1,46 +1,60 @@
 var pg = require('pg');
-var cstr = 'postgres://postgres:postgres@localhost:5432/rxr'
-var client = new pg.Client(cstr);
-client.connect();
+var passport = require('passport');
+var passportLocal = require('passport-local').Strategy;
+var Sequelize = require('sequelize');
 
-function addUser(firstname, lastname, email, password, cb) {
-	pg.connect(cstr, function(err, client, done) {
-		if(err) { cb(err); }
-		else {
-			var str = 'insert into users (firstname, lastname, email, password) values ($1, $2, $3, $4);'
-			client.query(str, [firstname, lastname, email, password], function (err, result) {
-				done();
-				client.end();
-				if (err) { cb(err); }
-				else {
-					pg.end();
-					cb(true); 
-				}
-			});
-		}
+var sequelize = new Sequelize('postgres://postgres:postgres@localhost:5432/rxr');
+
+var User = sequelize.define('user', {
+	username: Sequelize.STRING,
+	password: Sequelize.STRING
+});
+
+passport.use(new passportLocal({
+		username: 'username',
+		password: 'password'
+	},
+	function (username, password, done) {
+		User.find({ where: { username: username }}).then(function(user) {
+			if (!user) { 
+				done(null, false, {message: 'User doesn\'t exist'}); 
+			} else if (user.password !== password) { 
+				done(null, false, {message: 'Incorrect password'}); 
+			} else {
+				done(null, user);
+			}
+		}).catch(function(err) {
+			done(err);
+		});
+	}
+));
+
+passport.serializeUser(function(user, done) {
+	done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+	User.findById(id).then(function(user) {
+		done(null, user);
+	}).catch(function(err) {
+		done(err);
 	});
-}
+});
 
-function login(email, password, cb) {
-	pg.connect(cstr, function(err, client, done) {
-		if (err) { cb(err); }
-		else {
-			var str = 'select exists (select true from users where email = $1 and password = $2);'
-			client.query(str, [email, password], function(err, result) {
-				done();
-				client.end();
-				if (err) { cb(err) }
-				else {
-					pg.end();
-					if (result.rows[0]['exists']) { cb(true); }
-					else { cb(false); }
-				}
-			});
+User.sync();
+
+function createUser(username, password, done) {
+	User.find({ where: { username: username }}).then(function(user) {
+		if (user) { 
+			done(false, user, { message: 'User already exists' });
+		} else { 
+			var newUser = User.create({username: username, password: password});
+			done(true, newUser, { message: 'User created' });
 		}
 	});
 }
 
 module.exports = {
-	addUser : addUser,
-	login : login
+	passport: passport,
+	createUser: createUser
 }

@@ -3,35 +3,50 @@ var router = express.Router();
 
 var db = require('../models/user');
 
-var sess;
+router.post('/login', function(req, res, next) {
+	db.passport.authenticate('local', function(err, user, info) {
+		if (err) { next(err); }
+		if (!user) { 
+			req.session.message = info.message;
+			res.render('login', { 
+				isAuthenticated: req.isAuthenticated(), 
+				message: req.session.message 
+			}); 
+		}
+		else { 
+			req.login(user, function(err) {
+				if (err) { next(err); }
+				else { 
+					res.render('home', { isAuthenticated: req.isAuthenticated() }); 
+				}
+			});
+		} 
+	})(req, res, next);
+});
 
-router.post('/addUser', function(req, res) {
-	var firstname = req.body.firstname;
-	var lastname = req.body.lastname;
-	var email = req.body.newuseremail;
-	var password = req.body.newuserpassword;
-	var retypepassword = req.body.retypepassword;
-	sess = req.session;
-	if (password !== retypepassword) {
-		res.render('login', { message: 'Passwords don\'t match' } );
+router.post('/createUser', function(req, res, next) {
+	if (req.body.password !== req.body.confirm_password) {
+		res.render('login', { 
+			isAuthenticated: req.isAuthenticated(),
+			message: 'Passwords don\'t match'
+		});
 	} else {
-		db.addUser(firstname, lastname, email, password, function(result) {
-			res.render('home', { session: sess });
+		db.createUser(req.body.username, req.body.password, function(success, user, info) {
+			if (!success) {
+				res.render('login', { 
+					isAuthenticated: req.isAuthenticated(),
+					message: info.message 
+				});
+			} else {
+				res.render('home', { isAuthenticated: req.isAuthenticated() });
+			}
 		});
 	}
 });
 
-router.post('/login', function(req, res) {
-	var email = req.body.olduseremail;
-	var password = req.body.olduserpassword;
-	sess = req.session;
-	db.login(email, password, function(result) {
-		if (result === true) { 
-			req.session.username = email;
-			res.render('home', { session: sess }); 
-		}
-		else { res.render('login', { message: 'No such account'}); }
-	});
+router.get('/logout', function(req, res) {
+	req.logout();
+	res.render('home', { isAuthenticated: req.isAuthenticated() });
 });
 
 module.exports = router;
