@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var db = require('../models/item');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -11,7 +12,12 @@ router.get('/propaganda', function(req, res, next) {
 });
 
 router.get('/gear', function(req, res, next) {
-	res.render('gear', { isAuthenticated: req.isAuthenticated() });
+	db.getAllItems(function(items) {
+		res.render('gear', { 
+			isAuthenticated: req.isAuthenticated(), 
+			items: items 
+		});
+	});
 });
 
 router.get('/blog', function(req, res, next) {

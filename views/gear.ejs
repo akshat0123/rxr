@@ -3,14 +3,54 @@
   <head>
     <title>Gear</title>
 		<% include header.ejs %>
+		<link rel='stylesheet' href='/stylesheets/bootstrap/dashboard.css'/>
+		<link rel='stylesheet' href='/stylesheets/gear/gear.css'/>
   </head>
   <body>
 		<% include navbar.ejs %>
 
-		<h1>GEAR UP</h1>
+		<div class='container-fluid'>
+
+			<div class='row'>
+
+				<div class='col-md-2 sidebar'>
+					<ul id='items' class='nav nav-sidebar'>
+						<li class='active'>
+							<a href='#'>MEN</a>
+						</li>
+						<li>
+							<a href='#'>WOMEN</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class='col-md-10 col-md-offset-2 main'>
+					<div class='row'>
+
+						<% for (var i = 0; i < items.length; i++) { %>
+							<div class='article col-md-3'>
+								<div class='panel panel-default'>
+									<div class='panel-heading'></div>
+									<div class='panel-body'>
+										<a href='#'><img src='<%= items[i].image %>'
+											 class='img-responsive center-block'/></a>
+										<h4><a href='#' class='item-title'><%= items[i].title %></a></h4>
+										<h6>$<%= items[i].price %></h6>
+									</div>
+								</div>
+							</div>
+						<% } %>
+
+					</div>
+				</div>
+
+			</div>
+
+		</div>
 
   </body>
 	<script src='/javascripts/jquery/jquery.min.js'></script>
 	<script src='/javascripts/jquery/jquery.min.map'></script>
 	<script src='/javascripts/bootstrap/bootstrap.min.js'></script>
+	<script src='/javascripts/gear/gear.js'></script>
 </html>

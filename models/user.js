@@ -2,7 +2,6 @@ var pg = require('pg');
 var passport = require('passport');
 var passportLocal = require('passport-local').Strategy;
 var Sequelize = require('sequelize');
-
 var sequelize = new Sequelize('postgres://postgres:postgres@localhost:5432/rxr');
 
 var User = sequelize.define('user', {

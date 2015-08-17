@@ -3,7 +3,7 @@
   <head>
     <title>Login</title>
 		<% include header.ejs %>
-		<link rel='stylesheet' href='/stylesheets/login.css'/>
+		<link rel='stylesheet' href='/stylesheets/login/login.css'/>
   </head>
   <body>
 		<% include navbar.ejs %>
@@ -14,7 +14,7 @@
 			<div id='olduser' class='row center-block'>
 				<form action='/users/login' method='post'>
 					<h2>LOGIN</h2>
-					<input type='username' name='username' class='form-control' placeholder='EMAIL' required autofocus/>
+					<input type='email' name='username' class='form-control' placeholder='EMAIL' required autofocus/>
 					<input type='password' name='password' class='form-control' placeholder='PASSWORD' />
 					<button class='btn btn-lg btn-block' type='submit'>LOGIN</button>
 					<a id='loginnewuser'><h6>JOIN</h6></a>
@@ -24,7 +24,7 @@
 			<div id='newuser' class='row center-block'>
 				<form action='/users/createUser' method='POST'>
 					<h2>JOIN</h2>
-					<input type='username' name='username' class='form-control' placeholder='EMAIL' required autofocus/>
+					<input type='email' name='username' class='form-control' placeholder='EMAIL' required autofocus/>
 					<input type='password' name='password' class='form-control' placeholder='PASSWORD' />
 					<input type='password' name='confirm_password'  class='form-control' placeholder='CONFIRM PASSWORD' />
 					<button class='btn btn-lg btn-block' type='submit'>JOIN</button>
@@ -37,5 +37,5 @@
 	<script src='/javascripts/jquery/jquery.min.js'></script>
 	<script src='/javascripts/jquery/jquery.min.map'></script>
 	<script src='/javascripts/bootstrap/bootstrap.min.js'></script>
-	<script src='/javascripts/login.js'></script>
+	<script src='/javascripts/login/login.js'></script>
 </html>
