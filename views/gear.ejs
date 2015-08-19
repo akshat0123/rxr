@@ -5,13 +5,14 @@
 		<% include header.ejs %>
 		<link rel='stylesheet' href='/stylesheets/bootstrap/dashboard.css'/>
 		<link rel='stylesheet' href='/stylesheets/gear/gear.css'/>
+		<link rel='stylesheet' href='/stylesheets/gear/center.css'/>
   </head>
   <body>
 		<% include navbar.ejs %>
 
 		<div class='container-fluid'>
 
-			<div class='row'>
+			<div class='row row-centered'>
 
 				<div class='col-md-2 sidebar'>
 					<ul id='items' class='nav nav-sidebar'>
@@ -25,23 +26,27 @@
 				</div>
 
 				<div class='col-md-10 col-md-offset-2 main'>
-					<div class='row'>
 
 						<% for (var i = 0; i < items.length; i++) { %>
 							<div class='article col-md-3'>
 								<div class='panel panel-default'>
 									<div class='panel-heading'></div>
 									<div class='panel-body'>
-										<a href='#'><img src='<%= items[i].image %>'
-											 class='img-responsive center-block'/></a>
-										<h4><a href='#' class='item-title'><%= items[i].title %></a></h4>
+										<a href='/items/getItemPageById/:<%= items[i].id %>' class='item-img'>
+											<img src='<%= items[i].image %>'
+											     class='img-responsive center-block'/>
+									  </a>
+										<h4>
+											<a href='items/getItemPageById/:<%= items[i].id %>' class='item-title'>
+												<%= items[i].title %>
+											</a>
+										</h4>
 										<h6>$<%= items[i].price %></h6>
 									</div>
 								</div>
 							</div>
 						<% } %>
 
-					</div>
 				</div>
 
 			</div>

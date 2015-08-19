@@ -16,12 +16,13 @@ function getAllItems(done) {
 	});
 }
 
-function getItemById(done) {
+function getItemById(id, done) {
 	Item.findById(id).then(function(item) {
 		done(item);
 	});
 }
 
 module.exports = {
-	getAllItems: getAllItems
+	getAllItems: getAllItems,
+	getItemById: getItemById
 }

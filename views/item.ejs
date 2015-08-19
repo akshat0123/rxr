@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Item</title>
+		<% include header.ejs %>
+	</head>
+	<body>
+		<% include navbar.ejs %>
+		<link rel='stylesheet' href='/stylesheets/bootstrap/dashboard.css'/>
+		<link rel='stylesheet' href='/stylesheets/gear/center.css'/>
+
+		<div class='container-fluid'>
+
+			<div class='row row-centered'>
+
+				<div class='col-md-7'>
+						<img src='<%= item.image %>' class='img-responsive center-block'/>
+				</div>
+
+				<div class='col-md-5 col-centered'>
+
+					<h1><%= item.title %></h1>
+					<h3>DESCRIPTION</h3>
+					<p>blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah
+						 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah
+						 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah
+						 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah
+						 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah
+						 blahblahblahblahblahblahblahblahblahblahblahblah</p>
+					 <h3>PRICE: $<%= item.price %></h3>
+
+					<form action='#' method='post'>
+						<button class='btn btn-lg btn-block' type='submit'>ADD TO CART</button>
+					</form>
+					 
+				</div>
+
+			</div>
+
+		</div>
+
+  </body>
+	<script src='/javascripts/jquery/jquery.min.js'></script>
+	<script src='/javascripts/jquery/jquery.min.map'></script>
+	<script src='/javascripts/bootstrap/bootstrap.min.js'></script>
+</html>

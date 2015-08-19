@@ -12,7 +12,16 @@ router.get('/getAllItems', function(req, res, next) {
 	});
 });
 
-router.get('getItemById', function(req, res, next) {
+router.get('/getItemPageById/:item_id', function(req, res, next) {
+	console.log('id: ' + req.params.item_id);
+	var item_id = req.params.item_id.substr(1);
+
+	db.getItemById(item_id, function(item) {
+		res.render('item', {
+			isAuthenticated: req.isAuthenticated(),
+			item: item,
+		});
+	});
 
 });
 
