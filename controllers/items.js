@@ -13,8 +13,7 @@ router.get('/getAllItems', function(req, res, next) {
 });
 
 router.get('/getItemPageById/:item_id', function(req, res, next) {
-	console.log('id: ' + req.params.item_id);
-	var item_id = req.params.item_id.substr(1);
+	var item_id = req.params.item_id;
 
 	db.getItemById(item_id, function(item) {
 		res.render('item', {

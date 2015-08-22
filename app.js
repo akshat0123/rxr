@@ -12,6 +12,7 @@ var passportLocal = require('passport-local').Strategy;
 var routes = require('./controllers/home');
 var users = require('./controllers/users');
 var items = require('./controllers/items');
+var carts = require('./controllers/carts');
 
 var app = express();
 
@@ -38,6 +39,7 @@ app.use(passport.session());
 app.use('/', routes);
 app.use('/users', users);
 app.use('/items', items);
+app.use('/carts', carts);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

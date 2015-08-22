@@ -7,16 +7,16 @@ router.post('/login', function(req, res, next) {
 	db.passport.authenticate('local', function(err, user, info) {
 		if (err) { next(err); }
 		if (!user) { 
-			req.session.message = info.message;
 			res.render('login', { 
 				isAuthenticated: req.isAuthenticated(), 
-				message: req.session.message 
+				message: info.message 
 			}); 
 		}
 		else { 
 			req.login(user, function(err) {
 				if (err) { next(err); }
 				else { 
+					req.session.uid = user.id;
 					res.render('home', { isAuthenticated: req.isAuthenticated() }); 
 				}
 			});
@@ -45,6 +45,7 @@ router.post('/createUser', function(req, res, next) {
 });
 
 router.get('/logout', function(req, res) {
+	req.session.uid = null;
 	req.logout();
 	res.render('home', { isAuthenticated: req.isAuthenticated() });
 });

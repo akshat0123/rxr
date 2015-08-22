@@ -7,7 +7,25 @@
   <body>
 		<% include navbar.ejs %>
 
-		<h1>CART</h1>
+		<% for (var i = 0; i < items.length; i++) { %>
+			<div class='article col-md-3'>
+				<div class='panel panel-default'>
+					<div class='panel-heading'></div>
+					<div class='panel-body'>
+						<a href='/items/getItemPageById/<%= items[i].id %>' class='item-img'>
+							<img src='<%= items[i].image %>'
+									 class='img-responsive center-block'/>
+						</a>
+						<h4>
+							<a href='items/getItemPageById/<%= items[i].id %>' class='item-title'>
+								<%= items[i].title %>
+							</a>
+						</h4>
+						<h6>$<%= items[i].price %></h6>
+					</div>
+				</div>
+			</div>
+		<% } %>
 
   </body>
 	<script src='/javascripts/jquery/jquery.min.js'></script>

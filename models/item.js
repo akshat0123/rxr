@@ -22,7 +22,16 @@ function getItemById(id, done) {
 	});
 }
 
+function getUserItems(iids, done) {
+	Item.findAll({
+		where: Sequelize.or( { id: iids })
+	}).then(function(items) {
+		done(items);
+	});
+}
+
 module.exports = {
 	getAllItems: getAllItems,
-	getItemById: getItemById
+	getItemById: getItemById,
+	getUserItems: getUserItems
 }
