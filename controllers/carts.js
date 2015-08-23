@@ -12,7 +12,6 @@ router.get('/addToCart/:item_id', function(req, res, next) {
 		});
 	} else {
 		db.addToCart(req.session.uid, req.params.item_id, function(cartItem) {
-			console.log('Cart Item: ' + cartItem);
 			db.getCartByUid(req.session.uid, function(iids) {
 				db_item.getUserItems(iids, function(items) {
 					res.render('cart', {

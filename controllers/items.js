@@ -14,14 +14,12 @@ router.get('/getAllItems', function(req, res, next) {
 
 router.get('/getItemPageById/:item_id', function(req, res, next) {
 	var item_id = req.params.item_id;
-
 	db.getItemById(item_id, function(item) {
 		res.render('item', {
 			isAuthenticated: req.isAuthenticated(),
 			item: item,
 		});
 	});
-
 });
 
 module.exports = router;

@@ -4,7 +4,8 @@ var sequelize = new Sequelize('postgres://postgres:postgres@localhost:5432/rxr')
 
 var Cart = sequelize.define('cart', {
 	uid: Sequelize.INTEGER,
-	iid: Sequelize.INTEGER
+	iid: Sequelize.INTEGER,
+	quantity: Sequelize.INTEGER
 });
 
 Cart.sync();
@@ -15,14 +16,23 @@ function getCartByUid(uid, done) {
 		attributes: ['iid']
 	}).then(function(iids) {
 		var iids_list = [];
-		for(var i=0;i<iids.length;i++) { iids_list.push(iids[i].iid); }
+		for(var i=0;i<iids.length;i++) { 
+			iids_list.push(iids[i].iid); 
+		}
 		done(iids_list);
 	});
 }
 
 function addToCart(uid, iid, done){
-	var cartItem = Cart.create({ uid: uid, iid: iid });
-	done(cartItem);
+	Cart.find({ where: { uid: uid, iid: iid} }).then(function(item) {
+		if (item) {
+			item.increment('quantity');
+			done(item);
+		} else {
+			var cartItem = Cart.create({ uid: uid, iid: iid, quantity: 1 });
+			done(cartItem);
+		}
+	});
 }
 
 module.exports = {
