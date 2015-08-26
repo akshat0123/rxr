@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
-var db = require('../models/cart');
-var db_item = require('../models/item');
+var models = require('../models');
 
 router.get('/addToCart/:item_id', function(req, res, next) {
 	if (!req.session.uid || req.session.uid === null) {
@@ -11,17 +9,22 @@ router.get('/addToCart/:item_id', function(req, res, next) {
 			message: 'You must login to add items to your cart'
 		});
 	} else {
-		db.addToCart(req.session.uid, req.params.item_id, function(cartItem) {
-			db.getCartByUid(req.session.uid, function(iids) {
-				db_item.getUserItems(iids, function(items) {
-					res.render('cart', {
-						isAuthenticated: req.isAuthenticated(),
-						items: items
+		models.Cart
+			.find({ where: { uid: req.session.uid, iid: req.params.item_id }})
+			.then(function(item) {
+				if (item) {
+					item.increment('quantity').then(function() {
+						res.render('home', { isAuthenticated: req.isAuthenticated() });
 					});
-				});
-			});
+				} else {
+					models.Cart
+					.create({ uid: req.session.uid, iid: req.params.item_id, quantity: 1 })
+					.then(function() {
+						res.render('home', { isAuthenticated: req.isAuthenticated() });
+					});
+				}
 		});
-	}		
+	}
 });
 
 module.exports = router;

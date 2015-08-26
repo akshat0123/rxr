@@ -1,23 +1,21 @@
 var express = require('express');
 var router = express.Router();
-
-var db = require('../models/item');
+var models = require('../models');
 
 router.get('/getAllItems', function(req, res, next) {
-	db.getAllItems(function(items) {
-		res.render('gear', { 
-			isAuthenticated: req.isAuthenticated(), 
-			items: items 
-		});
-	});
+	// db.getAllItems(function(items) {
+	// 	res.render('gear', { 
+	// 		isAuthenticated: req.isAuthenticated(), 
+	// 		items: items 
+	// 	});
+	// });
 });
 
 router.get('/getItemPageById/:item_id', function(req, res, next) {
-	var item_id = req.params.item_id;
-	db.getItemById(item_id, function(item) {
+	models.Item.findById(req.params.item_id).then(function(item) {
 		res.render('item', {
 			isAuthenticated: req.isAuthenticated(),
-			item: item,
+			item: item
 		});
 	});
 });

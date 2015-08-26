@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var db_item = require('../models/item');
-var db_cart = require('../models/cart');
+var models = require('../models');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -13,9 +12,9 @@ router.get('/propaganda', function(req, res, next) {
 });
 
 router.get('/gear', function(req, res, next) {
-	db_item.getAllItems(function(items) {
-		res.render('gear', { 
-			isAuthenticated: req.isAuthenticated(), 
+	models.Item.findAll().then(function(items) {
+		res.render('gear', {
+			isAuthenticated: req.isAuthenticated(),
 			items: items
 		});
 	});
@@ -26,12 +25,10 @@ router.get('/blog', function(req, res, next) {
 });
 
 router.get('/cart', function(req, res, next) {
-	db_cart.getCartByUid(req.session.uid, function(iids) {
-		db_item.getUserItems(iids, function(items) {
-			res.render('cart', {
-				isAuthenticated: req.isAuthenticated(),
-				items: items
-			});
+	models.Cart.getCart(req.session.uid, function(items) {
+		res.render('cart', {
+			isAuthenticated: req.isAuthenticated(),
+			items: items
 		});
 	});
 });

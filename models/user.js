@@ -4,9 +4,9 @@ var passportLocal = require('passport-local').Strategy;
 var Sequelize = require('sequelize');
 var sequelize = new Sequelize('postgres://postgres:postgres@localhost:5432/rxr');
 
-var User = sequelize.define('user', {
-	username: Sequelize.STRING,
-	password: Sequelize.STRING
+var User = sequelize.define("User", {
+		username: Sequelize.STRING,
+		password: Sequelize.STRING
 });
 
 passport.use(new passportLocal({
@@ -40,20 +40,15 @@ passport.deserializeUser(function(id, done) {
 	});
 });
 
-User.sync();
-
-function createUser(username, password, done) {
-	User.find({ where: { username: username }}).then(function(user) {
-		if (user) { 
-			done(false, user, { message: 'User already exists' });
-		} else { 
-			var newUser = User.create({username: username, password: password});
-			done(true, newUser, { message: 'User created' });
+module.exports = function(sequelize, DataTypes) {
+  var User = sequelize.define("User", {
+    username: DataTypes.STRING,
+		password: DataTypes.STRING
+  }, {
+		classMethods: {
+			passport: function() { return passport; }
 		}
 	});
-}
 
-module.exports = {
-	passport: passport,
-	createUser: createUser
-}
+  return User;
+};

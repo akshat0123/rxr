@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router();
-
-var db = require('../models/user');
+var models = require('../models');
 
 router.post('/login', function(req, res, next) {
-	db.passport.authenticate('local', function(err, user, info) {
+	models.User.passport().authenticate('local', function(err, user, info) {
 		if (err) { next(err); }
 		if (!user) { 
 			res.render('login', { 
@@ -31,13 +30,14 @@ router.post('/createUser', function(req, res, next) {
 			message: 'Passwords don\'t match'
 		});
 	} else {
-		db.createUser(req.body.username, req.body.password, function(success, user, info) {
-			if (!success) {
-				res.render('login', { 
+		models.User.find({ where: { username: req.body.username }}).then(function(user) {
+			if (user) {
+				res.render('login', {
 					isAuthenticated: req.isAuthenticated(),
-					message: info.message 
+					message: 'User already exists'
 				});
 			} else {
+				models.User.create({ username: req.body.username, password: req.body.password });
 				res.render('home', { isAuthenticated: req.isAuthenticated() });
 			}
 		});

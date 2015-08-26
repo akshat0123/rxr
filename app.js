@@ -8,17 +8,21 @@ var bodyParser = require('body-parser');
 var expressSession = require('express-session');
 var passport = require('passport');
 var passportLocal = require('passport-local').Strategy;
+var sequelize = require('sequelize');
 
 var routes = require('./controllers/home');
 var users = require('./controllers/users');
 var items = require('./controllers/items');
 var carts = require('./controllers/carts');
+var models = require('./models');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+models.sequelize.sync();
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -33,6 +37,7 @@ app.use(expressSession({
 	saveUninitialized: false,
 	resave: false 
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
