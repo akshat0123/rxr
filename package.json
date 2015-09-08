@@ -21,7 +21,8 @@
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.5",
     "sequelize-cli": "~1.7.4",
-    "sequelize": "~3.6.0"
+    "sequelize": "~3.6.0",
+    "font-awesome": "~4.4.0"
   },
   "description": "RxR website",
   "main": "app.js",
